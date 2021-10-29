@@ -2,21 +2,34 @@ import React, { useState } from 'react'
 import * as C from './App.styles'
 import { Item } from './types/Item'
 import ListItem from './components/ListItem/index'
+import AddArea from './components/addArea/index'
 
 
 export default function App () {
   const [list, setList] = useState<Item[]>([
     { id: 1, name: 'Comprar o meu ps5', done: false},
-    { id: 2, name: 'Comprar um Smart tv 4k ', done: false}
+    { id: 2, name: 'Comprar um Smart tv 4k ', done: true}
   ])
+
+  const handleAddTask = (taskName: string) => {
+    let newList = [...list]
+    newList.push({
+      id: list.length + 1,
+      name: taskName,
+      done: false
+    })
+    setList(newList)
+  }
 
   return(
     <C.Container>
         <C.Area>
           <C.Header>Lista de Tarefas</C.Header>
+
+          <AddArea onEnter={handleAddTask}/>
           
           {list.map((item, index) => (
-            <ListItem/>
+            <ListItem key={index} item={item}/>
           ))}
         </C.Area>
     </C.Container>
